@@ -4,7 +4,9 @@
   // =========================
   // CONFIG
   // =========================
-  const ASSET_BASE = "/caldero-caotico/assets/";
+  const RAW_BASE_URL = window.BASE_URL || "./";
+  const BASE_URL = RAW_BASE_URL.endsWith("/") ? RAW_BASE_URL : `${RAW_BASE_URL}/`;
+  const ASSET_BASE = `${BASE_URL}assets/`;
 
   const CONFIG = {
     gravityY: 1.05,
