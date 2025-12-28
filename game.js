@@ -639,8 +639,6 @@
   function doHook(){
     if (!started || !M || !pot || !hammer || !world) return;
     if (!canUse("hook")) return;
-    if (!spend(CONFIG.hookCost)){ toast("⚡ Sin energía para Gancho"); return; }
-    cd.hook.last = now();
 
     // toggle off
     if (hookJoint){
@@ -665,6 +663,9 @@
       toast("❌ No hay dónde enganchar.");
       return;
     }
+
+    if (!spend(CONFIG.hookCost)){ toast("⚡ Sin energía para Gancho"); return; }
+    cd.hook.last = now();
 
     const hit = hits[0];
     hookJoint = M.Constraint.create({
