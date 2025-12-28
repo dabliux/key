@@ -639,15 +639,15 @@
   function doHook(){
     if (!started || !M || !pot || !hammer || !world) return;
     if (!canUse("hook")) return;
-    if (!spend(CONFIG.hookCost)){ toast("⚡ Sin energía para Gancho"); return; }
-    cd.hook.last = now();
-
     // toggle off
     if (hookJoint){
       releaseHook();
       toast("🪝 Gancho: soltado");
       return;
     }
+
+    if (!spend(CONFIG.hookCost)){ toast("⚡ Sin energía para Gancho"); return; }
+    cd.hook.last = now();
 
     const tip = getHammerTip();
     const end = {
