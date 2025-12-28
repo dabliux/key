@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Ascenso Arcade con Martillo</title>
+
+  <link rel="stylesheet" href="/caldero-caotico/style.css?v=10" />
+
+  <!-- Captura errores y los muestra en pantalla -->
+  <script>
+    (function(){
+      function show(msg){
+        let d = document.getElementById("fatal");
+        if(!d){
+          d = document.createElement("div");
+          d.id = "fatal";
+          d.style.cssText =
+            "position:fixed;inset:12px;z-index:999999;background:#0b1025e6;border:1px solid #2b3a66;color:#e9f0ff;padding:12px;border-radius:16px;font:700 14px system-ui;white-space:pre-wrap;overflow:auto";
+          document.addEventListener("DOMContentLoaded",()=>document.body.appendChild(d));
+        }
+        d.textContent = "ERROR DETECTADO:\n\n" + msg;
+      }
+      window.addEventListener("error", (e)=> show(e.message + "\n" + (e.filename||"") + ":" + (e.lineno||"")));
+      window.addEventListener("unhandledrejection", (e)=> show(String(e.reason||e)));
+    })();
+  </script>
+
+  <!-- Motor física -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>
+
+  <!-- Juego -->
+  <script defer src="/caldero-caotico/game.js?v=10"></script>
+</head>
+
+<body>
+  <div id="hud">
+    <div class="left">
+      <div class="row">
+        <div class="pill">⏱️ <span id="uiTime">0:00.0</span></div>
+        <div class="pill">💀 <span id="uiDeaths">0</span></div>
+        <div class="pill">🧱 Etapa <span id="uiStage">1</span></div>
+      </div>
+
+      <div class="row">
+        <div class="pill">🪙 <span id="uiCoins">0</span></div>
+        <div class="pill">⬆️ <span id="uiHeight">0</span>m</div>
+      </div>
+
+      <div class="bar">
+        <div class="barLabel">⚡ Energía</div>
+        <div class="barBg"><div id="uiEnergyFill" class="barFill"></div></div>
+        <div class="barVal"><span id="uiEnergyVal">100</span></div>
+      </div>
+
+      <div class="cds">
+        <div class="cd ready" id="cdBurst">SPACE<br><small>Burst</small></div>
+        <div class="cd ready" id="cdDash">SHIFT<br><small>Dash</small></div>
+        <div class="cd ready" id="cdHook">F<br><small>Gancho</small></div>
+        <div class="cd ready" id="cdSlow">Q<br><small>Slow</small></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <button class="btn" id="btnPause">⏸️ Pausa</button>
+      <button class="btn" id="btnRespawn">↩️ Checkpoint</button>
+      <button class="btn" id="btnHelp">❓ Controles</button>
+    </div>
+
+    <div id="progressWrap">
+      <div id="progressFill"></div>
+      <div id="progressText">0%</div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="modal" class="modal">
+    <div class="card">
+      <h1>🧱 Ascenso Arcade con Martillo</h1>
+      <p class="muted">Subes por etapas numeradas. Todo por teclado (WASD o flechas).</p>
+
+      <div class="controls">
+        <div><b>W / ↑</b> extender martillo</div>
+        <div><b>S / ↓</b> encoger martillo</div>
+        <div><b>A / ←</b> rotar martillo izquierda</div>
+        <div><b>D / →</b> rotar martillo derecha</div>
+        <div><b>SPACE</b> Burst</div>
+        <div><b>SHIFT</b> Dash</div>
+        <div><b>F</b> Gancho</div>
+        <div><b>Q</b> Slow-Mo</div>
+        <div><b>R</b> Volver a checkpoint</div>
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="btnPlay">▶ Jugar</button>
+        <button class="btn ghost" id="btnResetData">🧹 Reiniciar</button>
+      </div>
+
+      <p class="muted small">Assets desde: <b>/caldero-caotico/assets/</b></p>
+    </div>
+  </div>
+
+  <canvas id="game"></canvas>
+</body>
+</html>
